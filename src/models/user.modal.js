@@ -10,7 +10,7 @@ const userSchema=new Schema(
             unique:true,
             trim:true,
             lowercase:true,
-            inderx:true,
+            index:true,
         },
         email:{
             type:String,
@@ -27,7 +27,7 @@ const userSchema=new Schema(
         },
         avatar:{
             type:String,
-            reuired:true,
+            required:true,
         },
         coverimage:{
             type:String,
@@ -53,7 +53,7 @@ const userSchema=new Schema(
 );
 userSchema.pre("save", async function(next){
     if(!this.isModified("password")){
-        next();
+       return next();
     }
     this.password=await bcrypt.hash(this.password,10);
     next();
