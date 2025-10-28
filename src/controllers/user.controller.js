@@ -31,7 +31,7 @@ const registerUser=asyncHandler(async(req,res)=>{
 
     //check user existence
 
-    const existedUser= User.findOne(
+    const existedUser= await User.findOne(
     {
         $or:[{username},{email}],
     
@@ -67,12 +67,8 @@ const registerUser=asyncHandler(async(req,res)=>{
         username,
         email,
         password,
-        avatar:{
-            avatar:avatar.url
-        },
-        coverImage:{
-            coverImage:coverImage?.url||" "
-        }
+        avatar: avatar.url,
+        coverimage: coverImage?.url || ""
      })
     const createdUser=await User.findById(user._id).select(
         "-password -refreshToken"
@@ -85,7 +81,7 @@ const registerUser=asyncHandler(async(req,res)=>{
 
     //reaturn res
     return res.status(201).json(
-        new ApiResponse(200,"User created successfully",createdUser)
+        new ApiResponse(201,"User created successfully",createdUser)
 
     )
 }) 
