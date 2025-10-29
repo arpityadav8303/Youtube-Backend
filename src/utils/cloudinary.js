@@ -19,10 +19,24 @@ const uploadOnCloudinary = async (localFilePath) => {
     });
 
     console.log("✅ File uploaded successfully:", response.url);
+    
+    // ✅ DELETE FILE AFTER SUCCESSFUL UPLOAD
+    fs.unlinkSync(localFilePath);
+    
     return response;
   } catch (error) {
     console.error("❌ Upload failed:", error.message);
-    fs.unlinkSync(localFilePath); // optional: cleanup local file
+    
+    // ✅ CLEANUP WITH ERROR HANDLING
+    if (fs.existsSync(localFilePath)) {
+      try {
+        fs.unlinkSync(localFilePath);
+        console.log("✅ Temp file deleted after failure");
+      } catch (unlinkError) {
+        console.log("⚠️ Could not delete temp file:", unlinkError.message);
+      }
+    }
+    
     return null;
   }
 };

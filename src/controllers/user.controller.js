@@ -24,8 +24,9 @@ const registerUser=asyncHandler(async(req,res)=>{
 
     // }
     if(
-        [fullname,username,email,password].some((field)=>field?.trim()===" ")
-    ){
+        [fullname,username,email,password].some((field)=>field?.trim()==="")
+    )
+    {
        throw new ApiError(400,"All fields are required")
     }
 
@@ -39,6 +40,7 @@ const registerUser=asyncHandler(async(req,res)=>{
     if(existedUser){
         throw new ApiError(409,"User already exists")
     }
+    console.log(req.files);
     
        //check for imagesand avatars
      const avatarLocalPath= req.files?.avatar[0]?.path;
@@ -79,7 +81,7 @@ const registerUser=asyncHandler(async(req,res)=>{
 
     }
 
-    //reaturn res
+    //return res
     return res.status(201).json(
         new ApiResponse(201,"User created successfully",createdUser)
 

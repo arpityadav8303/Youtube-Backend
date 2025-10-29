@@ -27,7 +27,7 @@ const userSchema=new Schema(
         },
         avatar:{
             type:String,
-            required:true,
+            // required:true,
         },
         coverimage:{
             type:String,
@@ -88,5 +88,5 @@ userSchema.methods.generateRefreshToken=function(){
         }
     );
 }
-
+userSchema.plugin(mongooseAggregatePaginate); 
 export const User=mongoose.model("User",userSchema)
